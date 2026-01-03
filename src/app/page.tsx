@@ -1,66 +1,64 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import React, { useRef } from 'react';
+import { Hero, Features } from '@/components/LandingSections';
+import { StatusCard } from '@/components/StatusCard';
+import { Header } from '@/components/Header';
+import { useSites } from '@/context/SiteContext';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const { sites, updateSite } = useSites();
+  const dashboardRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const scrollToDashboard = () => {
+    dashboardRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleAdminClick = () => {
+    // Just redirect to login or admin depending on auth state (layout handles check)
+    router.push('/admin');
+  };
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main style={{ paddingBottom: 'var(--space-12)' }}>
+      <Header isAdmin={false} onAdminClick={handleAdminClick} />
+
+      <Hero onScrollToDashboard={scrollToDashboard} />
+      <Features />
+
+      <div className="container" ref={dashboardRef}>
+        <div className="flex justify-between items-end" style={{ marginBottom: 'var(--space-8)' }}>
+          <div className="animate-fade-in">
+            <h1 className="text-xl font-bold" style={{ fontSize: '2rem', marginBottom: 'var(--space-2)' }}>
+              System Status
+            </h1>
+            <p className="text-muted">
+              Live monitoring for all critical services.
+            </p>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        <div className="grid grid-cols-1 gap-4" style={{
+          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          gap: 'var(--space-6)'
+        }}>
+          {sites.map(site => (
+            <StatusCard
+              key={site.id}
+              site={site}
+              onUpdate={updateSite} // Allow public to trigger check updates visually, but no edits
             />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          ))}
+
+          {sites.length === 0 && (
+            <div className="card flex flex-col items-center justify-center text-center p-12 text-muted col-span-full">
+              <p>No sites monitored yet. Check back soon!</p>
+            </div>
+          )}
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

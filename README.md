@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pulse - Status Monitoring
+![Pulse](/src/app/icon.svg)
 
-## Getting Started
+**Pulse** is a warm, friendly, and professional status monitoring dashboard. Think of it as a "Status Page" that feels like a "Farewell Message Board" — calm, trustworthy, and visually appealing.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+*   **Warm Design System**: Custom vanilla CSS variables for a premium, non-generic look.
+*   **Real-time Monitoring**: Checks HTTP status and response time server-side.
+*   **Auto-Refresh**: Automatically pings sites every 60 seconds (`pulse_sites` in localStorage).
+*   **SSL & Availability**: Simple visual indicators for SSL and latency.
+*   **Admin Mode**: 
+    *   Secure login (Password: `admin`).
+    *   **Drag & Drop** reordering of monitors.
+    *   Add/Remove monitors with custom confirmation modals.
+*   **Responsive**: Works on desktop, tablet, and mobile.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+*   **Framework**: Next.js 14 (App Router)
+*   **Language**: TypeScript
+*   **Styling**: Vanilla CSS Variables (Tokens) & CSS Modules
+*   **Library**: `lucide-react` (Icons), `@dnd-kit` (Drag & Drop)
+*   **Deployment**: Vercel Ready (Server Actions + LocalStorage)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Getting Started
 
-## Learn More
+1.  Clone the repository.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the development server:
+    ```bash
+    npm run dev
+    ```
+4.  Open [http://localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Deployment on Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is optimized for **Vercel**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  Push this code to your GitHub repository.
+2.  Go to [Vercel](https://vercel.com) and "Import Project".
+3.  Select your repository and click **Deploy**.
+4.  No environment variables needed for basic usage.
 
-## Deploy on Vercel
+## 🤝 Purpose
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built as a portfolio showcase to demonstrate:
+*   Clean Architecture (Separation of Concerns)
+*   Modern UI/UX (Glassmorphism, Micro-interactions)
+*   Server Actions & Next.js App Router patterns.
