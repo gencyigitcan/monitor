@@ -4,20 +4,22 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Activity, LogOut, LayoutDashboard, Globe } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
+    const { isAuthenticated } = useAuth();
 
     useEffect(() => {
-        const auth = localStorage.getItem('pulse_auth');
-        if (auth !== 'true') {
+        if (!isAuthenticated) {
             router.push('/login');
         }
-    }, [router]);
+    }, [isAuthenticated, router]);
+
+    const { logout } = useAuth();
 
     const handleLogout = () => {
-        localStorage.removeItem('pulse_auth');
-        router.push('/');
+        logout();
     };
 
     return (

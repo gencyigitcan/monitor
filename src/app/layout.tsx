@@ -2,9 +2,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ToastProvider";
 import { SiteProvider } from "@/context/SiteContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
-// ... metadata ...
+export const metadata = {
+  title: "Pulse | Status Monitoring",
+  description: "A warm and friendly website & subdomain monitoring tool.",
+};
 
 export default function RootLayout({
   children,
@@ -14,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SiteProvider>
-          <ToastProvider>
-            {children}
-          </ToastProvider>
-        </SiteProvider>
+        <AuthProvider>
+          <SiteProvider>
+            <ToastProvider>
+              {children}
+            </ToastProvider>
+          </SiteProvider>
+        </AuthProvider>
       </body>
     </html>
   );
