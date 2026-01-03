@@ -2,8 +2,11 @@
 
 import React from 'react';
 import { Activity, ArrowRight, Shield, Zap, Globe } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export const Hero = ({ onScrollToDashboard }: { onScrollToDashboard: () => void }) => {
+    const { t } = useLanguage();
+
     return (
         <section className="flex flex-col items-center justify-center text-center animate-fade-in" style={{
             padding: 'var(--space-12) 0',
@@ -27,7 +30,7 @@ export const Hero = ({ onScrollToDashboard }: { onScrollToDashboard: () => void 
                     fontSize: '0.875rem'
                 }}>
                     <Activity size={16} />
-                    <span>v2.0 is live</span>
+                    <span>{t.hero.label}</span>
                 </div>
 
                 <h1 className="font-bold" style={{
@@ -37,9 +40,10 @@ export const Hero = ({ onScrollToDashboard }: { onScrollToDashboard: () => void 
                     background: 'linear-gradient(135deg, var(--color-text-main) 0%, var(--color-primary-dark) 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    letterSpacing: '-0.02em'
+                    letterSpacing: '-0.02em',
+                    whiteSpace: 'pre-line'
                 }}>
-                    Monitoring made <br /> calm & friendly.
+                    {t.hero.title}
                 </h1>
 
                 <p className="text-muted" style={{
@@ -47,15 +51,15 @@ export const Hero = ({ onScrollToDashboard }: { onScrollToDashboard: () => void 
                     maxWidth: '600px',
                     margin: '0 auto var(--space-8)'
                 }}>
-                    Keep track of your critical services with a dashboard that feels less like a terminal and more like a home.
+                    {t.hero.subtitle}
                 </p>
 
                 <div className="flex gap-4 justify-center">
                     <button onClick={onScrollToDashboard} className="button button-primary" style={{ padding: '0 32px', height: '56px', fontSize: '1.1rem' }}>
-                        View Live Demo
+                        {t.hero.viewDemo}
                     </button>
-                    <a href="https://github.com/yigitcangenc/monitor" target="_blank" className="button button-secondary" style={{ padding: '0 32px', height: '56px', fontSize: '1.1rem' }}>
-                        GitHub Repo
+                    <a href="https://github.com/gencyigitcan/monitor" target="_blank" className="button button-secondary" style={{ padding: '0 32px', height: '56px', fontSize: '1.1rem' }}>
+                        {t.hero.githubRepo}
                     </a>
                 </div>
             </div>
@@ -64,21 +68,24 @@ export const Hero = ({ onScrollToDashboard }: { onScrollToDashboard: () => void 
 };
 
 export const Features = () => {
+    const { t } = useLanguage();
+
+    // We recreate features array inside component to use current 't'
     const features = [
         {
             icon: <Zap size={24} color="var(--color-accent)" />,
-            title: "Real-time Checks",
-            desc: "Instant server-side monitoring for HTTP/HTTPS services with accurate response times."
+            title: t.features.realTime,
+            desc: t.features.realTimeDesc
         },
         {
             icon: <Shield size={24} color="var(--color-secondary)" />,
-            title: "SSL Validation",
-            desc: "Never let a certificate expire unnoticed. We track validity and expiration dates."
+            title: t.features.ssl,
+            desc: t.features.sslDesc
         },
         {
             icon: <Globe size={24} color="var(--color-primary)" />,
-            title: "Global Availability",
-            desc: "Monitor your subdomains and APIs from anywhere, ensuring 100% uptime."
+            title: t.features.global,
+            desc: t.features.globalDesc
         }
     ];
 

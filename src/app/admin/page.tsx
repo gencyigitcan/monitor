@@ -23,12 +23,14 @@ import { AddSiteModal } from '@/components/AddSiteModal';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import { useSites } from '@/context/SiteContext';
 import { useToast } from '@/components/ToastProvider';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AdminPage() {
     const { sites, reorderSites, addSite, updateSite, deleteSite } = useSites();
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [confirmState, setConfirmState] = useState<{ isOpen: boolean, id: string | null }>({ isOpen: false, id: null });
     const { showToast } = useToast();
+    const { t } = useLanguage();
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -46,7 +48,7 @@ export default function AdminPage() {
 
     const handleAdd = (data: any) => {
         addSite(data);
-        showToast('Monitor added successfully', 'success');
+        showToast(t.admin.monitorAdded, 'success');
     };
 
     const confirmDelete = (id: string) => {
@@ -56,7 +58,7 @@ export default function AdminPage() {
     const executeDelete = () => {
         if (confirmState.id) {
             deleteSite(confirmState.id);
-            showToast('Monitor deleted', 'success');
+            showToast(t.admin.monitorDeleted, 'success');
         }
         setConfirmState({ isOpen: false, id: null });
     };
@@ -65,15 +67,15 @@ export default function AdminPage() {
         <div className="max-w-4xl mx-auto">
             <div className="flex justify-between items-end mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold mb-2">Manage Monitors</h1>
-                    <p className="text-muted">Add, edit, or remove services from your status page.</p>
+                    <h1 className="text-2xl font-bold mb-2">{t.admin.manageMonitors}</h1>
+                    <p className="text-muted">{t.admin.manageDesc}</p>
                 </div>
                 <button
                     onClick={() => setIsAddModalOpen(true)}
                     className="button button-primary"
                 >
                     <Plus size={18} style={{ marginRight: '8px' }} />
-                    Add Monitor
+                    {t.dashboard.addMonitor}
                 </button>
             </div>
 
@@ -91,7 +93,7 @@ export default function AdminPage() {
                         ))}
                         {sites.length === 0 && (
                             <div className="card flex flex-col items-center justify-center text-center p-12 text-muted">
-                                <p>No monitors found. Add one to get started.</p>
+                                <p>{t.dashboard.noMonitors}</p>
                             </div>
                         )}
                     </div>
@@ -106,8 +108,8 @@ export default function AdminPage() {
 
             <ConfirmModal
                 isOpen={confirmState.isOpen}
-                title="Delete Monitor"
-                message="Are you sure? This will remove the monitor from the public page immediately."
+                title={t.admin.confirmDeleteTitle}
+                message={t.admin.confirmDeleteMessage}
                 onConfirm={executeDelete}
                 onCancel={() => setConfirmState({ isOpen: false, id: null })}
             />

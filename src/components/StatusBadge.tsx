@@ -4,9 +4,10 @@ type Status = 'online' | 'degraded' | 'offline';
 
 interface StatusBadgeProps {
     status: Status;
+    text?: string;
 }
 
-export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
+export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, text }) => {
     const getBadgeClass = (status: Status) => {
         switch (status) {
             case 'online':
@@ -35,7 +36,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
 
     return (
         <span className={`badge ${getBadgeClass(status)}`}>
-            {getLabel(status)}
+            {text || getLabel(status)}
         </span>
     );
 };

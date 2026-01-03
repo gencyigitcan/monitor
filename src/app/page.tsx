@@ -6,11 +6,13 @@ import { StatusCard } from '@/components/StatusCard';
 import { Header } from '@/components/Header';
 import { useSites } from '@/context/SiteContext';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Home() {
   const { sites, updateSite } = useSites();
   const dashboardRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { t } = useLanguage();
 
   const scrollToDashboard = () => {
     dashboardRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -32,10 +34,10 @@ export default function Home() {
         <div className="flex justify-between items-end" style={{ marginBottom: 'var(--space-8)' }}>
           <div className="animate-fade-in">
             <h1 className="text-xl font-bold" style={{ fontSize: '2rem', marginBottom: 'var(--space-2)' }}>
-              System Status
+              {t.dashboard.systemStatus}
             </h1>
             <p className="text-muted">
-              Live monitoring for all critical services.
+              {t.dashboard.liveMonitoring}
             </p>
           </div>
         </div>
@@ -54,7 +56,7 @@ export default function Home() {
 
           {sites.length === 0 && (
             <div className="card flex flex-col items-center justify-center text-center p-12 text-muted col-span-full">
-              <p>No sites monitored yet. Check back soon!</p>
+              <p>{t.dashboard.noMonitors}</p>
             </div>
           )}
         </div>

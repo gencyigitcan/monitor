@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Activity, ArrowRight, Lock, UserPlus } from 'lucide-react';
 import { useToast } from '@/components/ToastProvider';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ export default function LoginPage() {
     const router = useRouter();
     const { showToast } = useToast();
     const { isSetupComplete, login, register, isAuthenticated } = useAuth();
+    const { t } = useLanguage();
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -32,25 +34,25 @@ export default function LoginPage() {
                 return;
             }
             if (password.length < 6) {
-                setError('Password must be at least 6 characters');
+                setError(t.login.passwordLength);
                 return;
             }
             if (password !== confirmPassword) {
-                setError('Passwords do not match');
+                setError(t.login.passwordsDoNotMatch);
                 return;
             }
             register(email, password);
-            showToast('Admin account created successfully', 'success');
+            showToast(t.login.accountCreated, 'success');
             router.push('/admin');
         } else {
             // Login Mode
             const success = login(email, password);
             if (success) {
-                showToast('Welcome back, Admin', 'success');
+                showToast(t.login.welcomeBack, 'success');
                 router.push('/admin');
             } else {
-                setError('Invalid email or password');
-                showToast('Authentication failed', 'error');
+                setError(t.login.invalidAuth);
+                showToast(t.login.invalidAuth, 'error');
             }
         }
     };
@@ -70,18 +72,18 @@ export default function LoginPage() {
                         <Activity size={32} />
                     </div>
                     <h1 className="text-xl font-bold">
-                        {isSetupComplete ? 'Admin Access' : 'Setup Admin Account'}
+                        {isSetupComplete ? t.login.adminAccess : t.login.setupAccount}
                     </h1>
                     <p className="text-muted">
                         {isSetupComplete
-                            ? 'Enter your credentials to manage monitors.'
-                            : 'Create an account for your admin panel.'}
+                            ? t.login.enterCredentials
+                            : t.login.createCredentials}
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div>
-                        <label className="label">Email Address</label>
+                        <label className="label">{t.login.emailLabel}</label>
                         <div className="flex items-center gap-2" style={{
                             border: '1px solid var(--color-border)',
                             borderRadius: 'var(--radius-md)',
@@ -102,7 +104,7 @@ export default function LoginPage() {
                     </div>
 
                     <div>
-                        <label className="label">Password</label>
+                        <label className="label">{t.login.passwordLabel}</label>
                         <div className="flex items-center gap-2" style={{
                             border: '1px solid var(--color-border)',
                             borderRadius: 'var(--radius-md)',
@@ -123,7 +125,7 @@ export default function LoginPage() {
 
                     {!isSetupComplete && (
                         <div>
-                            <label className="label">Confirm Password</label>
+                            <label className="label">{t.login.confirmPasswordLabel}</label>
                             <div className="flex items-center gap-2" style={{
                                 border: '1px solid var(--color-border)',
                                 borderRadius: 'var(--radius-md)',
@@ -146,12 +148,12 @@ export default function LoginPage() {
                     {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
 
                     <button type="submit" className="button button-primary w-full justify-center">
-                        {isSetupComplete ? 'Login' : 'Create Account'}
+                        {isSetupComplete ? t.login.loginButton : t.login.createAccount}
                         <ArrowRight size={18} style={{ marginLeft: '8px' }} />
                     </button>
 
                     <button type="button" onClick={() => router.push('/')} className="button button-secondary w-full justify-center">
-                        Back to Dashboard
+                        {t.common.backToDashboard}
                     </button>
                 </form>
             </div>

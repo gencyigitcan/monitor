@@ -3,6 +3,7 @@ import "./globals.css";
 import { ToastProvider } from "@/components/ToastProvider";
 import { SiteProvider } from "@/context/SiteContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
@@ -19,11 +20,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <SiteProvider>
-            <ToastProvider>
-              {children}
-            </ToastProvider>
-          </SiteProvider>
+          <LanguageProvider>
+            <SiteProvider>
+              <ToastProvider>
+                {children}
+              </ToastProvider>
+            </SiteProvider>
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>
