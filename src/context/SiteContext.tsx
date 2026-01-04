@@ -76,7 +76,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 // Stagger checks slightly
                 setTimeout(() => refreshSite(site.id), index * 2000);
             });
-        }, 60000); // Check every minute
+        }, 5000); // Check every 5 seconds
 
         return () => clearInterval(interval);
     }, [isLoaded, sites]); // restart timer if sites change (add/remove/update)
