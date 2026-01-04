@@ -74,7 +74,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const interval = setInterval(() => {
             sites.forEach((site, index) => {
                 // Stagger checks slightly
-                setTimeout(() => refreshSite(site.id), index * 2000);
+                setTimeout(() => refreshSite(site.id), index * 200);
             });
         }, 5000); // Check every 5 seconds
 
