@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function Home() {
-  const { sites, updateSite } = useSites();
+  const { sites, updateSite, refreshSite } = useSites();
   const dashboardRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { t } = useLanguage();
@@ -51,6 +51,7 @@ export default function Home() {
               key={site.id}
               site={site}
               onUpdate={updateSite} // Allow public to trigger check updates visually, but no edits
+              onRefresh={() => refreshSite(site.id)}
             />
           ))}
 

@@ -67,6 +67,20 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, [sites, isLoaded]);
 
+    // Automatic polling
+    useEffect(() => {
+        if (!isLoaded || sites.length === 0) return;
+
+        const interval = setInterval(() => {
+            sites.forEach((site, index) => {
+                // Stagger checks slightly
+                setTimeout(() => refreshSite(site.id), index * 2000);
+            });
+        }, 60000); // Check every minute
+
+        return () => clearInterval(interval);
+    }, [isLoaded, sites]); // restart timer if sites change (add/remove/update)
+
     const addSite = (newSiteData: Partial<SiteData>) => {
         const newSite: SiteData = {
             id: Math.random().toString(36).substr(2, 9),
@@ -107,6 +121,9 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 status: result.status,
                 responseTime: result.responseTime,
                 lastChecked: `Today at ${timeString}`,
+                ssl: result.ssl ? result.ssl.valid : site.ssl,
+                sslDaysRemaining: result.ssl ? result.ssl.daysRemaining : undefined,
+                history: [...(site.history || []), result.responseTime].slice(-20) // Keep last 20
             });
         } catch (error) {
             console.error("Failed to check site", error);
